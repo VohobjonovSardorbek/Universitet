@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ustozlar</title>
+</head>
+<body>
+<h1>Ustozlar ro'yxati</h1>
+<hr>
+{% for ustoz in ustozlar %}
+  <p>
+    {{ forloop.counter }}.
+      <a href="{{ ustoz.id }}">{{ ustoz.ism }}</a>
+  </p>
+{% endfor %}
+<br>
+<a href="/ustozlar/ustoz_qoshish/">
+  <button>Yangi ustoz qo'shish</button>
+</a>
+<br><br>
+<a href="/">Bosh sahifaga qaytish</a>
+</body>
+</html>

@@ -1,3 +1,10 @@
+from tkinter.font import names
+
+from django.contrib import admin
+from django.urls import path
+
+from mainApp.views import *
+
 """
 URL configuration for core project.
 
@@ -19,4 +26,12 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_view, name="home"),
+    path('fanlar/', fanlar_view, name="fanlar"),
+    path('fanlar/fan_qoshish/', fan_qoshish_view, name="fan_qoshish"),
+    path('yonalishlar/', yonalishlar_view, name="yonalishlar"),
+    path('yonalishlar/yonalish_qoshish/', yonalish_qoshish_view, name="yonalish_qoshish"),
+    path('ustozlar/', ustozlar_view, name="ustozlar"),
+    path('ustozlar/ustoz_qoshish/', ustoz_qoshish_view, name="ustoz_qoshish"),
+    path('ustozlar/<int:ustoz_id>', ustozlar_details_view, name="ustozlar_details"),
 ]

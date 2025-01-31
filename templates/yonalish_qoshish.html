@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>yonalish qo'shish</title>
+</head>
+<body>
+<h1>Yangi yonalish qo'shish</h1>
+<hr>
+<form method="post">
+  {% csrf_token %}
+  <label>Nom:</label>
+  <input type="text" name="nom" required>
+  <br><br>
+  <label>Aktiv:</label>
+  <input type="checkbox" name="aktiv">
+  <br><br>
+  <button>Ma'lumotlarni qo'shish</button>
+</form>
+</body>
+</html>
