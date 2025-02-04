@@ -7,9 +7,17 @@
 <body>
 <h1>Fanlar ro'yxati</h1>
 {% for fan in fanlar %}
-  <p>{{ forloop.counter }}.
-  {{ fan.nom }}
-  </p>
+<p>{{ forloop.counter }}.
+    <a href="/fanlar/{{ fan.id }}/details/">
+        {{ fan.nom }}
+    </a>
+    <a href="/fanlar/{{ fan.id }}/o'chirish/tasdiqlash/">
+        <button>O'chirish</button>
+    </a>
+    <a href="/fanlar/{{ fan.id }}/tahrirlash/">
+        <button>Tahrirlash</button>
+    </a>
+</p>
 {% endfor %}
 <a href="/fanlar/fan_qoshish">Fan qoshish</a>
 <br><br>

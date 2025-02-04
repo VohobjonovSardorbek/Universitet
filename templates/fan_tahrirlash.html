@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fan | tahrirlash</title>
+</head>
+<body>
+<h2>{{ fan.nom }} fanini tahrirlash</h2>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <label>Nom:</label>
+    <input type="text" name="nom" value="{{ fan.nom }}" required>
+    <br><br>
+    <label>Yonalish:</label>
+    <select name="yonalish_id">
+        <option value="{{ fan.yonalish.id }}">{{ fan.yonalish.nom }}</option>
+        {% for yonalish in yonalishlar %}
+        <option value="{{ yonalish.id }}">{{ yonalish.nom }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+    <select name="asosiy">
+        <option value="{{ fan.asosiy }}">{{ fan.asosiy }}</option>
+        <option value="{{ asosiy }}">{{ asosiy }}</option>
+    </select>
+    <br><br>
+    <button>Ma'lumotlarni qoshish</button>
+</form>
+</body>
+</html>

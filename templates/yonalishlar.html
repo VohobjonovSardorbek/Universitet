@@ -8,9 +8,17 @@
 <h1>Yonalishlar ro'yxati</h1>
 <hr>
 {% for yonalish in yonalishlar %}
-    <p>{{ forloop.counter }}.
+<p>{{ forloop.counter }}.
+    <a href="/yonalishlar/{{ yonalish.id }}/details/">
         {{ yonalish.nom }}
-    </p>
+    </a>
+    <a href="/yonalishlar/{{ yonalish.id }}/update/">
+        <button>Tahrirlash</button>
+    </a>
+    <a href="/yonalishlar/{{ yonalish.id }}/delete/tasdiqlash/">
+        <button>O'chirish</button>
+    </a>
+</p>
 {% endfor %}
 
 <a href="/yonalishlar/yonalish_qoshish">

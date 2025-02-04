@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yonalish | tahrirlash</title>
+</head>
+<body>
+<h2>{{ yonalish.nom }} yo'nalishning ma'lumotlarini tahrirlash</h2>
+<hr>
+<form method="post">
+    {% csrf_token %}
+    <label>Nom:</label>
+    <input type="text" name="nom" value="{{ yonalish.nom }}" required>
+    <br><br>
+    <label>Aktiv:</label>
+    <input type="checkbox" {% if yonalish.aktiv== True %} checked {%endif%} name="aktiv">
+    <br><br>
+    <button>Tasdiqlash</button>
+</form>
+</body>
+</html>
