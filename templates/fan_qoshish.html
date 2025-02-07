@@ -9,21 +9,7 @@
 <hr>
 <form method="post">
     {% csrf_token %}
-    <label>Nom:</label>
-    <input type="text" name="nom" required>
-    <br><br>
-    <label>Yonalish:</label>
-    <select name="yonalish_id">
-        {% for yonalish in yonalishlar %}
-        <option value="{{ yonalish.id }}">{{ yonalish.yonalish }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
-    <select name="asosiy_id">
-        <option value="1">Asosiy</option>
-        <option value="2">Qo'shimcha</option>
-    </select>
-    <br><br>
+    {{ form.as_p }}
     <button>Ma'lumotlarni qoshish</button>
 </form>
 </body>

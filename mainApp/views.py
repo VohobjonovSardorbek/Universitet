@@ -1,3 +1,6 @@
+from django.db.models import FileField
+
+from .forms import FanModel, YonalishForm, UstozForm
 from .models import *
 from contextlib import contextmanager
 from idlelib.query import Query
@@ -29,22 +32,18 @@ def fanlar_details_view(request, pk):
 
 
 def fan_qoshish_view(request):
+    form = FanModel()
     if request.method == 'POST':
-        if request.POST.get('asosiy_id') == '1':
-            asosiy = "Asosiy"
-        else:
-            asosiy = "Qo'shimcha"
-        Fan.objects.create(
-            nom=request.POST.get('nom'),
-            yonalish=Yonalish.objects.get(id=request.POST.get('yonalish_id')),
-            asosiy=asosiy,
-        )
+        fan_model = FanModel(request.POST)
+        if fan_model.is_valid():
+            fan_model.save()
         return redirect('fanlar')
     yonalishlar = Fan.objects.all()
     asosiylar = Fan.objects.order_by('asosiy').values_list('asosiy', flat=True).distinct()
     context = {
         "yonalishlar": yonalishlar,
         "asosiylar": asosiylar,
+        "form" : form
     }
     return render(request, 'fan_qoshish.html', context=context)
 
@@ -64,13 +63,15 @@ def fan_delete_view(request, pk):
 
 
 def fan_update_view(request, pk):
+    form = FanModel()
+    fan = get_object_or_404(Fan, id=pk)
     if request.method == 'POST':
-        Fan.objects.filter(id=pk).update(
-            nom=request.POST.get('nom'),
-            yonalish=Yonalish.objects.get(id=request.POST.get('yonalish_id')),
-            asosiy=request.POST.get('asosiy')
-        )
+        fan_model = FanModel(request.POST, instance=fan)
+        if fan_model.is_valid():
+            fan_model.save()
         return redirect('fanlar')
+    else:
+        form = FanModel(instance=fan)
     fan = get_object_or_404(Fan, id=pk)
     yonalishlar = Yonalish.objects.exclude(id=fan.yonalish.id)
     if fan.asosiy == "Asosiy":
@@ -81,6 +82,7 @@ def fan_update_view(request, pk):
         "fan": fan,
         "asosiy": asosiy,
         "yonalishlar ": yonalishlar,
+        "form" : form
     }
     return render(request, 'fan_tahrirlash.html', context=context)
 
@@ -103,15 +105,19 @@ def yonalish_details_view(request, pk):
 
 
 def yonalish_update_view(request, pk):
+    form = YonalishForm()
+    yonalish = get_object_or_404(Yonalish, id=pk)
     if request.method == 'POST':
-        Yonalish.objects.filter(id=pk).update(
-            nom=request.POST.get('nom'),
-            aktiv=request.POST.get('aktiv') == 'on'
-        )
+        yonalish_model = YonalishForm(request.POST, instance=yonalish)
+        if yonalish_model.is_valid():
+            yonalish_model.save()
         return redirect('/yonalishlar/')
+    else:
+        form = YonalishForm(instance=yonalish)
     yonalish = Yonalish.objects.get(id=pk)
     context = {
-        "yonalish": yonalish
+        "yonalish": yonalish,
+        "form" : form
     }
     return render(request, 'yonalish_update.html', context=context)
 
@@ -131,13 +137,14 @@ def yonalish_delete_view(request, pk):
 
 
 def yonalish_qoshish_view(request):
+    form = YonalishForm()
     if request.method == 'POST':
-        Yonalish.objects.create(
-            nom=request.POST.get('nom'),
-            aktiv=request.POST.get('aktiv') == 'on'
-        )
+        yonalish_model = YonalishForm(request.POST)
+        if yonalish_model.is_valid():
+            yonalish_model.save()
         return redirect('yonalishlar')
-    return render(request, 'yonalish_qoshish.html')
+    context = {"form" : form}
+    return render(request, 'yonalish_qoshish.html', context=context)
 
 
 def ustozlar_view(request):
@@ -149,30 +156,17 @@ def ustozlar_view(request):
 
 
 def ustoz_qoshish_view(request):
+    form = UstozForm()
     if request.method == 'POST':
-        if request.POST.get('jins') == '1':
-            jins = "Erkak"
-        else:
-            jins = "Ayol"
-        if request.POST.get('daraja_id') == "1":
-            daraja = "Bakalavr"
-        elif request.POST.get('daraja_id') == "2":
-            daraja = "Magistr"
-        else:
-            daraja = "Doktorant"
-
-        Ustoz.objects.create(
-            ism=request.POST.get('ism'),
-            yosh=request.POST.get('yosh'),
-            jins=jins,
-            daraja=daraja,
-            fan=Fan.objects.get(id=request.POST.get('fan_id'))
-        )
-        return redirect('fanlar')
+        ustoz_model = UstozForm(request.POST)
+        if ustoz_model.is_valid():
+            ustoz_model.save()
+        return redirect('ustozlar')
 
     fanlar = Fan.objects.all()
     context = {
-        "fanlar": fanlar
+        "fanlar": fanlar,
+        "form" : form
     }
     return render(request, 'ustoz_qoshish.html', context=context)
 
@@ -187,21 +181,15 @@ def ustozlar_details_view(request, ustoz_id):
 
 
 def ustoz_update_view(request, pk):
+    form = UstozForm()
+    ustoz = get_object_or_404(Ustoz, id=pk)
     if request.method == 'POST':
-        if request.POST.get('daraja_id') == '1':
-            daraja = "Bakalavr"
-        elif request.POST.get('daraja_id') == '2':
-            daraja = "Magistr"
-        else:
-            daraja = "Doktorant"
-        Ustoz.objects.filter(id=pk).update(
-            ism=request.POST.get('ism'),
-            yosh=request.POST.get('yosh'),
-            jins=request.POST.get('jins'),
-            daraja=daraja,
-            fan=Fan.objects.get(id=request.POST.get('fan_id'))
-        )
+        ustoz_model = UstozForm(request.POST, instance=ustoz)
+        if ustoz_model.is_valid():
+            ustoz_model.save()
         return redirect('/ustozlar/')
+    else:
+        form = UstozForm(instance=ustoz)
     ustoz = Ustoz.objects.get(id=pk)
     if ustoz.jins == "Erkak":
         jinsi = "Ayol"
@@ -211,7 +199,8 @@ def ustoz_update_view(request, pk):
     context = {
         "ustoz": ustoz,
         "jinsi": jinsi,
-        "fanlar": fanlar
+        "fanlar": fanlar,
+        "form" : form
     }
     return render(request, 'ustoz_update.html', context=context)
 
@@ -220,6 +209,7 @@ def ustoz_delete_tasdiqlash_view(request, pk):
     ustoz = Ustoz.objects.get(id=pk)
     context = {
         "ustoz": ustoz
+
     }
     return render(request, 'ustoz_delete.html', context=context)
 

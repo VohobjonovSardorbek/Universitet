@@ -9,32 +9,7 @@
 <hr>
 <form method="post">
   {% csrf_token %}
-  <label>Ism:</label>
-  <input type="text" name="ism" required>
-  <br><br>
-  <label>Yosh:</label>
-  <input type="number" name="yosh" required>
-  <br><br>
-  <label>Jins:</label>
-  <select name="jins">
-    <option value="1">Erkak</option>
-    <option value="2">Ayol</option>
-  </select>
-  <br><br>
-  <label>Daraja:</label>
-  <select name="daraja_id">
-    <option value="1">Bakalavr</option>
-    <option value="2">Magistr</option>
-    <option value="3">Doktorant</option>
-  </select>
-  <br><br>
-  <label>Fan:</label>
-  <select name="fan_id">
-    {% for fan in fanlar %}
-    <option value="{{ fan.id }}">{{ fan.nom }}</option>
-    {% endfor %}
-  </select>
-  <br><br>
+  {{ form.as_p }}
   <button>Ma'lumotlarni kiritish</button>
 </form>
 </body>

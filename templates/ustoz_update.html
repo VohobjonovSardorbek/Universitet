@@ -9,36 +9,7 @@
 <hr>
 <form method="post">
     {% csrf_token %}
-    <label>Ism:</label>
-    <input type="text" name="ism" value="{{ ustoz.ism }}" required>
-    <br><br>
-    <label>Yosh:</label>
-    <input type="number" name="yosh" value="{{ ustoz.yosh }}" required>
-    <br><br>
-    <label>Jins:</label>
-    <select name="jins">
-        <option value="{{ ustoz.jins }}">{{ ustoz.jins }}</option>
-        <option value="{{ jinsi }}">{{ jinsi }}</option>
-    </select>
-    <br><br>
-    <label>Daraja:</label>
-    <select name="daraja_id">
-        <option value="1" {% if ustoz.daraja==
-        "Bakalavr" %} selected {% endif %}>Bakalavr</option>
-        <option value="2" {% if ustoz.daraja==
-        "Magistr" %} selected {% endif %}>Magistr</option>
-        <option value="3" {% if ustoz.daraja==
-        "Doktorant" %} selected {% endif %}>Doktorant</option>
-    </select>
-    <br><br>
-    <label>Fan:</label>
-    <select name="fan_id">
-        <option value=" {{ ustoz.fan.id }}">{{ ustoz.fan }}</option>
-        {% for fan in fanlar %}
-        <option value="{{ fan.id }}">{{ fan.nom }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
+    {{ form.as_p }}
     <button>Tasdiqlash</button>
 </form>
 </body>
