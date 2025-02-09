@@ -23,10 +23,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.i18n import i18n_patterns, set_language
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home"),
+    path('i18n/set_language/', set_language, name='set_language'),
     path('fanlar/', fanlar_view, name="fanlar"),
     path("fanlar/<int:pk>/details/", fanlar_details_view),
     path('fanlar/fan_qoshish/', fan_qoshish_view, name="fan_qoshish"),
